@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Toaster } from "sonner";
-import ChatWidget from "@/components/ChatWidget"; 
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,8 +43,6 @@ export default function RootLayout({
             },
           }} 
         />
-
-        <ChatWidget />
 
         {/* GLOBAL NAVIGATION (ASAP Branded) */}
         <nav className="flex items-center justify-between px-8 py-8 bg-[#050505] border-b border-[#1a1a1a] sticky top-0 z-50">
