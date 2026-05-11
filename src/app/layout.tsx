@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import Link from "next/link";
-import { Toaster } from "sonner"; // <-- Add this import
+import { Toaster } from "sonner";
+import ChatWidget from "@/components/ChatWidget"; // <-- 1. Import the Chat Widget
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,7 +36,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-[#121110] text-white selection:bg-[#d98f2b] selection:text-white">
+      <body className="min-h-full flex flex-col bg-[#121110] text-white selection:bg-[#d98f2b] selection:text-white relative">
         
         {/* PREMIUM TOAST NOTIFICATIONS */}
         <Toaster 
@@ -49,6 +50,9 @@ export default function RootLayout({
             },
           }} 
         />
+
+        {/* 2. THE FLOATING AI CHAT WIDGET */}
+        <ChatWidget />
 
         {/* GLOBAL NAVIGATION */}
         <nav className="flex items-center justify-between px-8 py-8 bg-[#121110] border-b border-[#2a2826] sticky top-0 z-50">
