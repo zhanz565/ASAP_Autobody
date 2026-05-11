@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BeforeAfterSlider from "./BeforeAfterSlider"; // <-- Import the new slider component
 
 export default function Vintage() {
   return (
@@ -7,17 +8,20 @@ export default function Vintage() {
       {/* LEFT SIDE: The Image Showcase */}
       <div className="w-full lg:w-1/2 min-h-[500px] lg:min-h-[800px] relative overflow-hidden bg-[#000] border-b lg:border-b-0 lg:border-r border-[#2a2826]">
         
-        {/* Clean, un-filtered image for maximum clarity */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] hover:scale-105"
-          style={{ backgroundImage: "url('/vintage-car.png')" }}
-        ></div>
+        {/* INTERACTIVE BEFORE/AFTER SLIDER */}
+        <div className="absolute inset-0">
+           <BeforeAfterSlider 
+             beforeImage="/vintage-before.jpg" 
+             afterImage="/vintage-car.jpg" /* Updated to .jpg based on your folder! */
+           />
+        </div>
         
         {/* Subtle dark gradient only at the bottom so the text remains readable */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#121110] to-transparent"></div>
+        {/* pointer-events-none ensures we can click and drag the slider right through the shadow! */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#121110] to-transparent pointer-events-none"></div>
         
         {/* Overlay Label */}
-        <div className="absolute bottom-10 left-10 border-l-2 border-[#d98f2b] pl-5">
+        <div className="absolute bottom-10 left-10 border-l-2 border-[#d98f2b] pl-5 pointer-events-none">
           <div className="text-white font-bold text-3xl tracking-wide" style={{ fontFamily: 'var(--font-playfair), serif' }}>Vintage Restoration</div>
           <div className="text-[#a3a3a3] text-[10px] tracking-[0.2em] uppercase mt-2 font-bold">Metal Fabrication & Paint</div>
         </div>

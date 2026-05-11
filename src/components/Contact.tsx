@@ -1,4 +1,51 @@
+"use client";
+
+import { useState, useRef } from "react";
+import { toast } from "sonner"; 
+
 export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fileCount, setFileCount] = useState(0);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Trigger a loading toast so the user knows it's working
+    const toastId = toast.loading("Sending your estimate request...");
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Success Toast!
+        toast.success("Request sent successfully! We will be in touch shortly.", {
+          id: toastId, 
+        });
+        formRef.current?.reset();
+        setFileCount(0); // Reset the file count text
+      } else {
+        toast.error("Something went wrong. Please try again or call us.", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Network error. Please try again or call us.", { id: toastId });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFileCount(e.target.files.length);
+    }
+  };
+
   return (
     <section id="contact" className="bg-[#121110] border-t border-[#2a2826] flex flex-col lg:flex-row">
       
@@ -19,16 +66,14 @@ export default function Contact() {
           </p>
 
           <div className="space-y-8 mb-12">
-            {/* Location */}
             <div className="flex items-start">
               <span className="text-[#d98f2b] text-xl mr-5 mt-1">📍</span>
               <div>
                 <div className="text-[10px] tracking-[0.2em] text-[#666] uppercase mb-2 font-bold">Location</div>
-                <div className="text-gray-200 text-sm leading-relaxed font-light">Unit 4 – 2952 Thompson Rd<br />Smithville, ON L0R 2A0</div>
+                <div className="text-gray-200 text-sm leading-relaxed font-light">2952 Thompson Rd<br />Smithville, ON L0R 2A0</div>
               </div>
             </div>
             
-            {/* Phone */}
             <div className="flex items-start">
               <span className="text-[#d98f2b] text-xl mr-5 mt-1">📞</span>
               <div>
@@ -37,7 +82,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Hours */}
             <div className="flex items-start">
               <span className="text-[#d98f2b] text-xl mr-5 mt-1">⏱️</span>
               <div>
@@ -50,7 +94,6 @@ export default function Contact() {
             </div>
           </div>
           
-          {/* Interactive Full-Color Map Embed - FIXED URL */}
           <div className="w-full h-64 md:h-80 rounded-sm overflow-hidden border border-[#2a2826]">
             <iframe 
               src="https://maps.google.com/maps?q=2952+Thompson+Rd,+Smithville,+ON+L0R+2A0&t=&z=14&ie=UTF8&iwloc=&output=embed" 
@@ -65,17 +108,11 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: The Form (Fully functional with Web3Forms) */}
+      {/* RIGHT SIDE: The Form */}
       <div className="w-full lg:w-7/12 p-10 lg:p-20 flex flex-col justify-center bg-[#1a1918]">
         
-        <form action="https://api.web3forms.com/submit" method="POST" encType="multipart/form-data" className="w-full max-w-[800px] mx-auto space-y-8">
+        <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-[800px] mx-auto space-y-8">
           
-          {/* PASTE YOUR WEB3FORMS ACCESS KEY HERE */}
-          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-          <input type="hidden" name="subject" value="New Estimate Request - ASAP Autobody" />
-          <input type="hidden" name="from_name" value="ASAP Autobody Website" />
-          <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
-
           {/* Name Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -88,7 +125,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Email - Changed to lowercase "email" to enable direct replies in Gmail */}
+          {/* Email */}
           <div>
             <label className="block text-[10px] tracking-[0.2em] text-[#888] uppercase mb-3">Email</label>
             <input type="email" name="email" required className="w-full bg-[#121110] border border-[#2a2826] focus:border-[#d98f2b] hover:border-[#444] px-5 py-4 text-white text-sm focus:outline-none transition-colors rounded-sm" placeholder="john@example.com" />
@@ -130,9 +167,16 @@ export default function Contact() {
             <label className="block text-[10px] tracking-[0.2em] text-[#888] uppercase mb-3">Photos of Damage (Optional)</label>
             <label className="w-full border border-dashed border-[#444] hover:border-[#d98f2b] bg-[#121110] px-4 py-16 text-center cursor-pointer group rounded-sm block transition-colors">
               <div className="text-3xl mb-4 grayscale group-hover:grayscale-0 transition-all opacity-80 group-hover:opacity-100">📷</div>
-              <div className="text-[#d98f2b] font-bold tracking-[0.1em] text-xs uppercase mb-2">Click to upload photos</div>
+              
+              {/* Dynamic feedback on file selection */}
+              {fileCount > 0 ? (
+                <div className="text-[#d98f2b] font-bold tracking-[0.1em] text-sm uppercase mb-2">{fileCount} File(s) Selected</div>
+              ) : (
+                <div className="text-[#d98f2b] font-bold tracking-[0.1em] text-xs uppercase mb-2">Click to upload photos</div>
+              )}
+              
               <div className="text-[#666] text-[11px] tracking-wide">JPG, PNG, HEIC accepted · Select multiple files if needed</div>
-              <input type="file" name="attachment" multiple accept="image/*" className="hidden" />
+              <input type="file" name="attachment" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
             </label>
           </div>
 
@@ -143,10 +187,16 @@ export default function Contact() {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="w-full mt-4 bg-[#d98f2b] hover:bg-[#c07a1b] text-black px-8 py-5 font-bold tracking-[0.2em] text-[11px] uppercase transition-colors rounded-sm cursor-pointer shadow-lg">
-            Send Request
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full mt-4 bg-[#d98f2b] hover:bg-[#c07a1b] disabled:bg-[#666] text-black px-8 py-5 font-bold tracking-[0.2em] text-[11px] uppercase transition-colors rounded-sm cursor-pointer shadow-lg"
+          >
+            {isSubmitting ? "Sending Request..." : "Send Request"}
           </button>
           
+          {/* Note: I removed the old submitStatus blocks from here, the Toast handles it now! */}
+
         </form>
       </div>
     </section>

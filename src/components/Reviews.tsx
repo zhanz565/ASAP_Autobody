@@ -107,11 +107,11 @@ export default function Reviews() {
             <div>
               <div className="text-[#d98f2b] text-sm tracking-widest mb-4">★★★★★</div>
               <p className="text-[#a3a3a3] text-sm leading-relaxed mb-8 font-light italic">
-                (5-Star Rating Left without comments)
+                "Fast and quality workmanship. Pictures show the depth of work.very satisfied"
               </p>
             </div>
             <div>
-              <div className="text-white font-bold text-lg" style={{ fontFamily: 'var(--font-playfair), serif' }}>Robert Foster</div>
+              <div className="text-white font-bold text-lg" style={{ fontFamily: 'var(--font-playfair), serif' }}>Brian Goodbrand</div>
               <div className="text-gray-500 text-[10px] tracking-[0.1em] uppercase mt-1">Google Review</div>
             </div>
           </div>

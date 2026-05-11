@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import Link from "next/link";
+import { Toaster } from "sonner"; // <-- Add this import
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,13 +35,24 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased scroll-smooth`}
     >
-      {/* We apply the dark theme and the new golden-orange custom selection colors to the body here */}
       <body className="min-h-full flex flex-col bg-[#121110] text-white selection:bg-[#d98f2b] selection:text-white">
         
-        {/* GLOBAL NAVIGATION - Flat Luxury Style */}
+        {/* PREMIUM TOAST NOTIFICATIONS */}
+        <Toaster 
+          position="bottom-right" 
+          toastOptions={{
+            style: {
+              background: '#1a1918',
+              color: '#fff',
+              border: '1px solid #d98f2b',
+              fontFamily: 'var(--font-geist-sans)',
+            },
+          }} 
+        />
+
+        {/* GLOBAL NAVIGATION */}
         <nav className="flex items-center justify-between px-8 py-8 bg-[#121110] border-b border-[#2a2826] sticky top-0 z-50">
           <Link href="/" className="flex items-center group">
-            {/* Minimalist Logo matching the template */}
             <div className="flex flex-col border-l-2 border-[#d98f2b] pl-3">
               <span className="text-2xl font-bold tracking-widest text-white leading-none mb-1">ASAP</span>
               <span className="text-[9px] text-[#888] tracking-[0.2em] uppercase font-medium leading-none">Autobody & Refining</span>
