@@ -1,77 +1,64 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative w-full flex flex-col justify-between bg-[#121110]" style={{ minHeight: 'calc(100vh - 88px)' }}>
+    <section className="relative w-full h-screen min-h-[800px] flex items-center justify-center bg-[#050505] overflow-hidden">
       
-      {/* Background Image Setup */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-no-repeat opacity-60 mix-blend-luminosity"
-        style={{ 
-          backgroundImage: "url('/hero-bg.jpg')",
-          backgroundPosition: '30% center' 
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121110] via-[#121110]/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#121110]/40 to-[#121110]"></div>
-      </div>
+      {/* Subtle Background Texture (Optional) 
+        Keeps it mostly black but adds a tiny bit of depth.
+      */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111111] via-[#050505] to-[#050505] opacity-50"></div>
 
-      {/* Main Hero Content */}
-      <div className="relative z-10 px-8 py-20 lg:pt-32 lg:pb-24 max-w-7xl mx-auto w-full flex-grow flex flex-col justify-center">
-        <div className="max-w-3xl">
-          
-          <div className="flex items-center space-x-4 mb-6">
-            <span className="w-8 h-[1px] bg-[#d98f2b]"></span>
-            <span className="text-[#d98f2b] text-[10px] tracking-[0.2em] uppercase font-bold">Est. 1996 · Master Craftsmen</span>
-          </div>
-
-          <h1 
-            className="text-[4rem] md:text-[5.5rem] font-bold leading-[1.05] mb-8 tracking-tight text-white"
-            style={{ fontFamily: 'var(--font-playfair), serif' }}
-          >
-            FAST, FLAWLESS <span className="text-[#d98f2b] italic">REFINING.</span>
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full">
+        
+        {/* 1. The Dramatic Logo Reveal 
+          Waits 0.5s, then fades in over 1.5s for that slow, cinematic feel.
+        */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+          className="mb-12"
+        >
+          {/* Main ASAP Logo */}
+          <h1 className="text-8xl md:text-[150px] font-black italic tracking-widest text-[#E62020] leading-none drop-shadow-[0_0_30px_rgba(230,32,32,0.3)]">
+            ASAP
           </h1>
-          
-          <p className="text-[#a3a3a3] text-lg max-w-xl mb-12 leading-relaxed font-light">
-            Refining your vehicle with unparalleled speed and precision. <br/>
-            <strong className="text-white font-medium">ASAP AutoBody and Refining</strong> is the destination for faster, show-quality restoration and refinement.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link href="#contact" className="bg-[#d98f2b] hover:bg-[#c07a1b] text-black px-10 py-4 font-bold tracking-[0.15em] text-[11px] uppercase transition-colors text-center rounded-sm">
-              Request a Quote
-            </Link>
-            <Link href="#services" className="bg-transparent border border-[#444] hover:border-[#d98f2b] text-white hover:text-[#d98f2b] px-10 py-4 font-bold tracking-[0.15em] text-[11px] uppercase transition-colors text-center rounded-sm">
-              Our Services
-            </Link>
+          {/* Subtitle */}
+          <div className="text-[#888] tracking-[0.4em] uppercase text-xs md:text-sm font-bold mt-4 md:mt-2 ml-2">
+            Autobody & Refinishing
           </div>
-        </div>
-      </div>
+        </motion.div>
 
-      <div className="w-full h-[1px] bg-[#2a2826] z-30 relative"></div>
-
-      {/* Stats Bottom Section */}
-      <div className="relative z-20 w-full bg-[#121110] px-8 py-16">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-left">
+        {/* 2. The Call to Action Buttons
+          Fades in slightly after the logo.
+        */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md"
+        >
+          {/* Primary Button: Red */}
+          <Link 
+            href="#contact" 
+            className="w-full sm:w-auto bg-[#E62020] hover:bg-[#cc1c1c] text-white px-10 py-4 font-bold tracking-[0.2em] text-xs uppercase transition-all duration-300 rounded-sm text-center shadow-[0_0_15px_rgba(230,32,32,0.2)] hover:shadow-[0_0_25px_rgba(230,32,32,0.4)]"
+          >
+            Request a Quote
+          </Link>
           
-          <div className="flex flex-col items-start">
-            <span className="text-[3.5rem] font-bold leading-none tracking-tighter text-[#d98f2b] mb-3">30+</span>
-            <span className="text-[#666] text-[10px] tracking-[0.15em] uppercase font-bold">Years in Business</span>
-          </div>
-          <div className="flex flex-col items-start">
-            <span className="text-[3.5rem] font-bold leading-none tracking-tighter text-[#d98f2b] mb-3">5,000+</span>
-            <span className="text-[#666] text-[10px] tracking-[0.15em] uppercase font-bold">Vehicles Restored</span>
-          </div>
-          <div className="flex flex-col items-start">
-            <span className="text-[3.5rem] font-bold leading-none tracking-tighter text-[#d98f2b] mb-3">100%</span>
-            <span className="text-[#666] text-[10px] tracking-[0.15em] uppercase font-bold">Satisfaction Rate</span>
-          </div>
-          <div className="flex flex-col items-start">
-            <span className="text-[3.5rem] font-bold leading-none tracking-tighter text-[#d98f2b] mb-3">ALL</span>
-            <span className="text-[#666] text-[10px] tracking-[0.15em] uppercase font-bold">Makes & Models</span>
-          </div>
+          {/* Secondary Button: Outline */}
+          <Link 
+            href="#services" 
+            className="w-full sm:w-auto bg-transparent border-2 border-[#333] hover:border-[#E62020] text-white hover:text-[#E62020] px-10 py-4 font-bold tracking-[0.2em] text-xs uppercase transition-all duration-300 rounded-sm text-center"
+          >
+            Our Services
+          </Link>
+        </motion.div>
 
-        </div>
       </div>
     </section>
   );

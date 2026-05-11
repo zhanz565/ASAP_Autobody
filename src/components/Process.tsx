@@ -1,74 +1,77 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Process() {
+  const steps = [
+    {
+      number: "01",
+      title: "Estimate & Approval",
+      desc: "We do a thorough assessment of all damage, and provide a detailed written estimate."
+    },
+    {
+      number: "02",
+      title: "Teardown & Parts",
+      desc: "We uncover structural damages and order premium OEM or exact-match aftermarket parts."
+    },
+    {
+      number: "03",
+      title: "Repair & Refinish",
+      desc: "Expert metal fabrication, frame straightening, and seamless multi-stage paint matching in our state-of-the-art spray booths."
+    },
+    {
+      number: "04",
+      title: "Quality Control",
+      desc: "A rigorous multi-point inspection, clear coat polishing, and final detailing. Your vehicle is returned in pristine, showroom condition."
+    }
+  ];
+
   return (
-    <section id="process" className="bg-[#121110] py-24 border-t border-[#2a2826]">
+    <section id="process" className="bg-[#050505] py-24 lg:py-32 border-t border-[#1a1a1a]">
       <div className="max-w-7xl mx-auto px-8">
         
         {/* Section Header */}
         <div className="mb-20 text-center md:text-left">
-          <h2 className="text-[#d98f2b] font-bold tracking-[0.2em] uppercase text-[10px] mb-4 flex items-center justify-center md:justify-start space-x-4">
-            <span className="w-8 h-[1px] bg-[#d98f2b]"></span>
-            <span>How It Works</span>
+          <h2 className="text-[#E62020] font-bold tracking-[0.2em] uppercase text-[10px] mb-6 flex items-center justify-center md:justify-start">
+            <span className="w-12 h-[2px] bg-[#E62020] mr-4"></span>
+            How We Work
           </h2>
-          <h3 className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-            Our <span className="text-[#d98f2b] italic">Process</span>
+          <h3 className="text-4xl md:text-5xl font-black italic tracking-tight text-white leading-tight max-w-2xl uppercase drop-shadow-md mx-auto md:mx-0">
+            The ASAP <span className="text-[#E62020]">Standard.</span>
           </h3>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative mt-12">
-          
-          {/* Horizontal Connecting Line (Desktop Only) */}
-          <div className="hidden md:block absolute top-8 left-0 w-full h-[1px] bg-[#2a2826] z-0"></div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 relative z-10">
-            
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center group cursor-default">
-              <div className="w-16 h-16 rounded-full border border-[#2a2826] group-hover:border-[#d98f2b] transition-all duration-300 bg-[#121110] text-[#d98f2b] flex items-center justify-center text-xl font-bold mb-6">
-                01
+        {/* Process Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15 }}
+              className="relative flex flex-col group"
+            >
+              {/* Red Connecting Line (Hidden on mobile) */}
+              {index !== steps.length - 1 && (
+                <div className="hidden lg:block absolute top-8 left-20 right-[-20px] h-[2px] bg-[#1a1a1a] z-0">
+                  <div className="h-full bg-[#E62020] w-0 group-hover:w-full transition-all duration-700 ease-out"></div>
+                </div>
+              )}
+              
+              {/* Step Number */}
+              <div className="w-16 h-16 rounded-sm bg-[#0a0a0a] border-2 border-[#1a1a1a] group-hover:border-[#E62020] flex items-center justify-center text-xl font-black italic text-[#888] group-hover:text-[#E62020] transition-colors duration-300 z-10 mb-6 shadow-lg">
+                {step.number}
               </div>
-              <h4 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>Inspection</h4>
-              <p className="text-[#a3a3a3] text-sm leading-relaxed max-w-xs font-light">
-                We do a thorough assessment of all damage, visible and hidden, and provide a detailed written estimate.
+              
+              {/* Content */}
+              <h4 className="text-xl text-white mb-3 font-black italic uppercase tracking-wide">{step.title}</h4>
+              <p className="text-[#a3a3a3] text-sm leading-relaxed font-light pr-4">
+                {step.desc}
               </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center group cursor-default">
-              <div className="w-16 h-16 rounded-full border border-[#2a2826] group-hover:border-[#d98f2b] transition-all duration-300 bg-[#121110] text-[#d98f2b] flex items-center justify-center text-xl font-bold mb-6">
-                02
-              </div>
-              <h4 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>Approval</h4>
-              <p className="text-[#a3a3a3] text-sm leading-relaxed max-w-xs font-light">
-                We walk you through every line item and coordinate directly with your insurance company if needed.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center group cursor-default">
-              <div className="w-16 h-16 rounded-full border border-[#2a2826] group-hover:border-[#d98f2b] transition-all duration-300 bg-[#121110] text-[#d98f2b] flex items-center justify-center text-xl font-bold mb-6">
-                03
-              </div>
-              <h4 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>Restoration</h4>
-              <p className="text-[#a3a3a3] text-sm leading-relaxed max-w-xs font-light">
-                Our master technicians get to work — metal, paint, and finishing done to the highest standards.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col items-center text-center group cursor-default">
-              <div className="w-16 h-16 rounded-full border border-[#2a2826] group-hover:border-[#d98f2b] transition-all duration-300 bg-[#121110] text-[#d98f2b] flex items-center justify-center text-xl font-bold mb-6">
-                04
-              </div>
-              <h4 className="text-2xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>Delivery</h4>
-              <p className="text-[#a3a3a3] text-sm leading-relaxed max-w-xs font-light">
-                A final quality inspection before your vehicle is delivered to you — clean, complete, and road-ready.
-              </p>
-            </div>
-
-          </div>
+            </motion.div>
+          ))}
         </div>
-
       </div>
     </section>
   );

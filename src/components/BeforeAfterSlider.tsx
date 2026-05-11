@@ -15,15 +15,8 @@ export default function BeforeAfterSlider({ beforeImage, afterImage }: { beforeI
     setSliderPosition(percent);
   };
 
-  const onMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-    handleMove(e.clientX);
-  };
-
-  const onTouchMove = (e: TouchEvent) => {
-    if (!isDragging) return;
-    handleMove(e.touches[0].clientX);
-  };
+  const onMouseMove = (e: MouseEvent) => { if (!isDragging) return; handleMove(e.clientX); };
+  const onTouchMove = (e: TouchEvent) => { if (!isDragging) return; handleMove(e.touches[0].clientX); };
 
   useEffect(() => {
     window.addEventListener("mousemove", onMouseMove);
@@ -45,28 +38,16 @@ export default function BeforeAfterSlider({ beforeImage, afterImage }: { beforeI
       onMouseDown={(e) => { setIsDragging(true); handleMove(e.clientX); }}
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX); }}
     >
-      {/* Before Image (Background) */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${beforeImage}')` }}
-      ></div>
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${beforeImage}')` }}></div>
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${afterImage}')`, clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}></div>
 
-      {/* After Image (Clipped overlay) */}
+      {/* ASAP RED Slider Line & Handle */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ 
-          backgroundImage: `url('${afterImage}')`,
-          clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
-        }}
-      ></div>
-
-      {/* The Draggable Slider Line */}
-      <div 
-        className="absolute top-0 bottom-0 w-1 bg-[#d98f2b] shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-        style={{ left: `calc(${sliderPosition}% - 2px)` }}
+        className="absolute top-0 bottom-0 w-[2px] bg-[#E62020] shadow-[0_0_15px_rgba(230,32,32,0.8)]"
+        style={{ left: `calc(${sliderPosition}%)` }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#121110] border-2 border-[#d98f2b] rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
-          <span className="text-[#d98f2b] text-xs font-bold tracking-tighter">⟨ ⟩</span>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#050505] border-2 border-[#E62020] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(230,32,32,0.5)] transition-transform group-hover:scale-110">
+          <span className="text-[#E62020] text-xs font-black tracking-tighter">⟨ ⟩</span>
         </div>
       </div>
     </div>
