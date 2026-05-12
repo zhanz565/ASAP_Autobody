@@ -18,3 +18,19 @@ body {
   background-color: var(--color-asap-dark);
   color: white;
 }
+
+/* Custom Agency Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+  border-left: 1px solid #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #222; 
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E62020; /* ASAP Red */
+}

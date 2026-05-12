@@ -6,6 +6,7 @@ import Gallery from "@/components/Gallery"; // <-- 1. Import the new Gallery
 import Process from "@/components/Process";
 import Reviews from "@/components/Reviews";
 import Contact from "@/components/Contact";
+import ChatWidget from "@/components/ChatWidget";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Process />
       <Reviews />
       <Contact />
+      <ChatWidget />
     </div>
   );
 }
