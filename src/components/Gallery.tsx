@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Generates an array of 30 image paths: ["/p1.jpg", "/p2.jpg", ... "/p30.jpg"]
-const images = Array.from({ length: 30 }, (_, i) => `/p${i + 1}.jpg`);
+// Generates an array of 120 image paths: ["/p1.jpg", "/p2.jpg", ... "/p120.jpg"]
+const images = Array.from({ length: 120 }, (_, i) => `/p${i + 1}.jpg`);
 
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(24); // Show 24 initially
 
-  // Close the gallery if the user presses the "Escape" key
+  // Close the gallery or navigate with keyboard
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedIndex(null);
@@ -34,6 +35,11 @@ export default function Gallery() {
     setSelectedIndex((prev) => (prev !== null ? (prev - 1 + images.length) % images.length : null));
   };
 
+  const handleLoadMore = () => {
+    // Reveal 24 more images at a time
+    setVisibleCount((prev) => Math.min(prev + 24, images.length));
+  };
+
   return (
     <section id="gallery" className="bg-[#050505] py-24 lg:py-32 border-t border-[#1a1a1a]">
       <div className="max-w-[1600px] mx-auto px-4 md:px-8">
@@ -51,13 +57,14 @@ export default function Gallery() {
 
         {/* The Tight "iPhone Style" Grid */}
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 md:gap-2">
-          {images.map((src, index) => (
+          {images.slice(0, visibleCount).map((src, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: (index % 10) * 0.05 }} // Slight staggered pop-in
+              // Keeps the stagger animation tight even when loading more
+              transition={{ delay: (index % 24) * 0.05 }} 
               className="relative aspect-square overflow-hidden group cursor-pointer bg-[#0a0a0a]"
               onClick={() => setSelectedIndex(index)}
             >
@@ -79,6 +86,19 @@ export default function Gallery() {
             </motion.div>
           ))}
         </div>
+
+        {/* Dynamic Load More Button */}
+        {visibleCount < images.length && (
+          <div className="mt-16 flex justify-center">
+            <button 
+              onClick={handleLoadMore}
+              className="bg-transparent border-2 border-[#333] hover:border-[#E62020] text-white hover:text-[#E62020] px-12 py-4 font-bold tracking-[0.2em] text-xs uppercase transition-all duration-300 rounded-sm text-center"
+            >
+              Load More Work
+            </button>
+          </div>
+        )}
+
       </div>
 
       {/* The Fullscreen Lightbox Overlay */}
@@ -90,7 +110,7 @@ export default function Gallery() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]/95 backdrop-blur-md"
-            onClick={() => setSelectedIndex(null)} // Click background to close
+            onClick={() => setSelectedIndex(null)} 
           >
             {/* Close Button */}
             <button 
@@ -125,7 +145,7 @@ export default function Gallery() {
 
             {/* The Zoomed Image */}
             <motion.img
-              key={selectedIndex} // Forces animation to re-run when index changes
+              key={selectedIndex}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -133,10 +153,10 @@ export default function Gallery() {
               src={images[selectedIndex]}
               alt={`Zoomed Work ${selectedIndex + 1}`}
               className="max-w-[90vw] max-h-[90vh] object-contain shadow-2xl"
-              onClick={(e) => e.stopPropagation()} // Prevent clicks on the image from closing the gallery
+              onClick={(e) => e.stopPropagation()} 
             />
             
-            {/* Image Counter */}
+            {/* Image Counter (Shows out of 120!) */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[#888] font-bold tracking-[0.2em] text-xs uppercase">
               {selectedIndex + 1} / {images.length}
             </div>
